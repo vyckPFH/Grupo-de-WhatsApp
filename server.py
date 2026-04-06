@@ -12,6 +12,8 @@ SEMAFORO_ACESSO = threading.Semaphore(1) # Apenas 1 thread pode acessar a fila p
 # Quantidade de itens. Quem insere na fila, incrementa. Quem consome, decrementa.
 SEMAFORO_ITENS = threading.Semaphore(0)  # A fila inicia com 0 elementos
 
+HOST = "0.0.0.0"
+PORT = 9050
 
 def atender_cliente_env(conn, addr):
     print(f"[Server] Nova conexão {addr}", flush=True)
@@ -22,8 +24,6 @@ def atender_cliente_env(conn, addr):
         mensagem = data.decode("utf-8")
         print(f"[Server] Recebido de {addr}: {mensagem}", flush=True )
         # ip do remetente, nome do remetente, msg e horario da msg é aq q bota
-
-       
         # sleep(WAITING_TIME)
         
         conn.sendall(resposta.encode("utf-8"))
@@ -127,8 +127,8 @@ def thread_consumidora(id_thread):
         print(f"[Thread {id_thread} consumiu] {msg_consumida}", flush=True)
         sleep(1)
 
-def main():
-    # Cria a thread produtora
+def criarThreads():
+     # Cria a thread produtora
     t0 = threading.Thread(
                 target=thread_produtora, args=(0,), # Será a thread 0
                 daemon=True
@@ -152,7 +152,13 @@ def main():
     t1.join()
     t2.join()
 
+def main():
+    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
+        serv.bind((HOST, PORT))
+        serv.listen()
+        
+        addr, conn  = serv.accept()        
+        atender_cliente_env(addr, conn)
 
-if __name__ == "__main__":
+# if __name__ == "__main__":
     main()
-    
