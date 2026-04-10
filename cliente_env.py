@@ -1,6 +1,6 @@
 import socket
 
-HOST = "192.168.200.179"
+HOST = "192.168.245.106"
 PORT = 9050
 
 name = input("[Cliente] Nome de usuario: ")
