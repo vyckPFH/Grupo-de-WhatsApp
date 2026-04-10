@@ -8,6 +8,8 @@ mensagem = input("[Cliente] Mensagem: ")
 
 with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cliente:
     cliente.connect((HOST, PORT))
+    
+    cliente.sendall(name.encode("utf-8"))
     cliente.sendall(mensagem.encode("utf-8"))
 
     resposta = cliente.recv(1024).decode("utf-8")

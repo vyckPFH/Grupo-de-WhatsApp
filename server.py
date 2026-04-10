@@ -19,16 +19,19 @@ def atender_cliente_env(conn, addr):
     print(f"[Server] Nova conexão {addr}", flush=True)
 
     with conn:
-        data = conn.recv(1024)
+        nomeCliente = conn.recv(1024)
 
+        nome = nomeCliente.decode("utf-8")
+
+        data = conn.recv(1024)
         mensagem = data.decode("utf-8")
-        print(f"[Server] Recebido de {addr}: {mensagem}", flush=True )
+        print(f"[Server] Recebido de {addr}: {nome}: {mensagem}", flush=True )
         # ip do remetente, nome do remetente, msg e horario da msg é aq q bota
         # sleep(WAITING_TIME)
         
-        conn.sendall(resposta.encode("utf-8"))
+        conn.sendall(mensagem.encode("utf-8"))
 
-        print(f"[Server] Respondido para {addr}: {resposta}", flush=True)
+        print(f"[Server] Respondido para {addr}: {mensagem}", flush=True)
 
 
     print(f"[Server] Conexão encerrada {addr}", flush=True)
@@ -55,7 +58,7 @@ def atender_cliente_recv(conn, addr):
     print(f"[Server] Conexão encerrada {addr}", flush=True)
 
 
-def iniciar_servidor():
+def iniciar_servidorPortaClienteENV():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
         server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
         server.bind((HOST, PORT))
@@ -67,7 +70,7 @@ def iniciar_servidor():
             conn, addr = server.accept()
 
             thread = threading.Thread(
-                target=atender_cliente,
+                target=atender_cliente_env,
                 args=(conn, addr),
                 daemon=True
             )
@@ -153,12 +156,16 @@ def criarThreads():
     t2.join()
 
 def main():
-    with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
-        serv.bind((HOST, PORT))
-        serv.listen()
-        
-        addr, conn  = serv.accept()        
-        atender_cliente_env(addr, conn)
 
-# if __name__ == "__main__":
+    iniciar_servidorPortaClienteENV()
+
+    # with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as serv:
+    #     serv.bind((HOST, PORT))
+    #     serv.listen()
+        
+    #     addr, conn  = serv.accept()    
+    #     print("{addr} conectou")    
+    #     atender_cliente_env(addr, conn)
+
+if __name__ == "__main__":
     main()
