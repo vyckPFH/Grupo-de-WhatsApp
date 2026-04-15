@@ -57,7 +57,6 @@ def atender_cliente_recv(conn, addr):
 
     print(f"[Server] Conexão encerrada {addr}", flush=True)
 
-
 def iniciar_servidorPortaClienteENV():
     with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as server:
         server.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
