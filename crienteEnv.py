@@ -1,7 +1,7 @@
 import socket
 
 # HOST = "192.168.248.123"
-HOST = "192.168.245.137"
+HOST = "192.168.247.135"
 PORT = 9002
 
 mensagem = input("[Cliente] Nickname: ")
@@ -15,5 +15,6 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cliente:
     while True:
         msg = input("Mensagem: ")
         cliente.sendall(msg.encode("utf-8"))
+        # "visto" do whatsapp
         resposta = cliente.recv(1024).decode("utf-8")
         print(resposta)
