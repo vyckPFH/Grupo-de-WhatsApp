@@ -135,30 +135,22 @@ def thread_consumidora():
 
         # trava acesso à lista de clientes
         SEMAFORO_CLIENTES.acquire()
-
-        # snapshot da lista
-        clientes_copia = CLIENTES_RECV[:]
-
-        SEMAFORO_CLIENTES.release()
-
-        # envia fora do lock
-        for cliente in clientes_copia:
+        for cliente in CLIENTES_RECV:
             try:
                 cliente.sendall(msg)
             except Exception:
                 # remove cliente com segurança
-                SEMAFORO_CLIENTES.acquire()
                 try:
                     if cliente in CLIENTES_RECV:
                         CLIENTES_RECV.remove(cliente)
-                finally:
-                    SEMAFORO_CLIENTES.release()
-
                 # fecha conexão
-                try:
-                    cliente.close()
-                except:
-                    pass
+                finally:
+                    try:
+                        cliente.close()
+                    except:
+                        print("algo deu errado na linha 153")
+    
+        SEMAFORO_CLIENTES.release()
 
 
 # ---------------- SERVIDOR ENV ----------------
