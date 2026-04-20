@@ -18,6 +18,7 @@ Sistema de chat multiusuário utilizando **sockets TCP**, **threads** e **semáf
 
 - Python 3.8 ou superior
 - Nenhuma biblioteca externa necessária (apenas módulos padrão)
+- As maquinhas devem estar todas na mesma rede para que este código funcione
 
 ---
 

@@ -1,9 +1,11 @@
 import socket
 
 # HOST = "192.168.247.135"
-HOST = "192.168.18.79"
-
+# HOST = "192.168.18.79"
+HOST = ""
 PORT = 9002
+
+HOST = input("Digite o IP do servidor: ")
 
 nickname = input("Nickname: ")
 
@@ -31,5 +33,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cliente:
         if resposta != "OK":
             print("[ERRO] servidor não confirmou recebimento")
         else:
-            print("")
+            print("Mensagem enviada para o servidor com sucesso!")
             
