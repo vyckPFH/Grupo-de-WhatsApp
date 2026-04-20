@@ -31,4 +31,5 @@ with socket.socket(socket.AF_INET, socket.SOCK_STREAM) as cliente:
         if resposta != "OK":
             print("[ERRO] servidor não confirmou recebimento")
         else:
-            print("enviado com sucesso")
+            print("")
+            
