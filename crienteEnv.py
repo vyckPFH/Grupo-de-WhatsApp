@@ -1,6 +1,8 @@
 import socket
 
-HOST = "192.168.247.135"
+# HOST = "192.168.247.135"
+HOST = "192.168.18.79"
+
 PORT = 9002
 
 nickname = input("Nickname: ")

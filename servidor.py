@@ -1,6 +1,8 @@
 import socket              # biblioteca para comunicação em rede (TCP)
 import threading           # permite usar threads (execução paralela)
 from time import sleep     # função para pausar execução
+from datetime import datetime  # para registrar o horário de recebimento
+
 
 # IP do servidor (0.0.0.0 = aceita conexão de qualquer lugar)
 HOST = "0.0.0.0"
@@ -86,8 +88,14 @@ def atender_cliente_env(conn, addr):
             if not data:
                 break
 
-            # monta mensagem com nome do usuário
-            mensagem = f"{nickname}: {data.decode()}".encode()
+            # registra o horário em que o servidor recebeu a mensagem
+            horario = datetime.now().strftime("%H:%M:%S")
+
+            # IP do cliente (apenas o endereço, sem a porta)
+            ip_cliente = addr[0]
+
+            # monta mensagem com nome, IP e horário conforme requisito
+            mensagem = f"[{nickname} ({ip_cliente}) {horario}]\n{data.decode()}".encode()
 
             # coloca mensagem na fila
             produzir(mensagem)
